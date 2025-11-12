@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>From Decks to Demos — What's Now Possible with AI Development</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="intro-responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <img src="brand/accenture-logo.svg" alt="Accenture" class="brand-logo">
+                <span class="brand-divider">|</span>
+                <span class="brand-text">From Decks to Demos</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#hero">Overview</a></li>
+                <li><a href="#featured-demo">The Story</a></li>
+                <li><a href="#how-it-works">How It Works</a></li>
+                <li><a href="#capabilities">What's Possible</a></li>
+                <li><a href="#showcase">Examples</a></li>
+                <li><a href="#economics">Economics</a></li>
+                <li><a href="#next-steps">Get Started</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Section 1: Introduction to Cursor -->
+    <section id="intro-cursor" class="intro-cursor">
+        <div class="container">
+            <div class="intro-compact">
+                <div class="intro-main">
+                    <h1 class="intro-headline">Turn Your Vision Into Interactive Experiences</h1>
+                    <p class="intro-tagline">No coding. No developers. Build prototypes, interactive client presentations, and working applications — all in hours.</p>
+                </div>
+                
+                <div class="intro-benefits">
+                    <div class="benefit-item">
+                        <i class="fas fa-presentation"></i>
+                        <span>Replace slide decks with interactive client experiences</span>
+                    </div>
+                    <div class="benefit-item">
+                        <i class="fas fa-rocket"></i>
+                        <span>Build working prototypes in hours</span>
+                    </div>
+                    <div class="benefit-item">
+                        <i class="fas fa-handshake"></i>
+                        <span>Show clients, don't just tell them</span>
+                    </div>
+                </div>
+
+                <div class="intro-example">
+                    <p class="example-text">See how an MD built a <strong>$70M+ pipeline application</strong> in 2 hours:</p>
+                    <button class="btn-explore" onclick="document.getElementById('featured-demo').scrollIntoView({behavior: 'smooth'})">
+                        <span>View Real Example</span>
+                        <i class="fas fa-arrow-down"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <a href="#featured-demo" class="scroll-arrow">
+            <i class="fas fa-chevron-down"></i>
+        </a>
+    </section>
+
+    <!-- Section 2: Featured Demo -->
+    <section id="featured-demo" class="featured-demo">
+        <div class="container">
+            <div class="demo-showcase">
+                <div class="demo-visual-large">
+                    <div class="demo-window">
+                        <div class="window-header">
+                            <div class="window-dots">
+                                <span></span><span></span><span></span>
+                            </div>
+                            <div class="window-title"> AI & Data Deal Identification System</div>
+                        </div>
+                        <div class="window-content">
+                            <div class="demo-interface">
+                                <div class="demo-section">
+                                    <div class="demo-icon"><i class="fas fa-tags"></i></div>
+                                    <h3>Intelligent Deal Tagging for MMS</h3>
+                                    <p>Agentic AI application that automatically identifies and tags Data & AI opportunities, generating account-level emails to capture previously missed pipeline.</p>
+                                </div>
+                                <div class="demo-features">
+                                    <div class="feature-item"><i class="fas fa-check-circle"></i> AI-powered deal analysis</div>
+                                    <div class="feature-item"><i class="fas fa-check-circle"></i> Automated tagging logic</div>
+                                    <div class="feature-item"><i class="fas fa-check-circle"></i> Account-level email generation</div>
+                                    <div class="feature-item"><i class="fas fa-check-circle"></i> Pipeline reporting dashboard</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="demo-badge">
+                        <i class="fas fa-clock"></i>
+                        <div class="badge-content">
+                            <span class="badge-label">Build Time</span>
+                            <span class="badge-value">2 Hours</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="demo-story">
+                    <div class="story-header">
+                        <i class="fas fa-quote-left"></i>
+                        <h2>The Business Problem</h2>
+                    </div>
+                    
+                    <div class="story-content">
+                        <div class="story-point">
+                            <div class="point-number">1</div>
+                            <div class="point-text">
+                                <h4>The Challenge</h4>
+                                <p>AI & Data deals weren't tagged correctly, causing massive under-reporting.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="story-point">
+                            <div class="point-number">2</div>
+                            <div class="point-text">
+                                <h4>The Solution</h4>
+                                <p>MD built an Agentic AI application in Cursor. Analyzes deals and auto-tags them. <strong>Build time: 2 hours.</strong></p>
+                            </div>
+                        </div>
+                        
+                        <div class="story-point highlight">
+                            <div class="point-number">3</div>
+                            <div class="point-text">
+                                <h4>The Impact</h4>
+                                <p><strong>$70+ Million added to pipeline.</strong> Now runs continuously, ensuring accurate reporting.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="story-cta">
+                        <button class="btn btn-primary btn-large" onclick="scrollToSection('how-it-works')">
+                            <i class="fas fa-magic"></i>
+                            See How This Was Built
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <a href="#how-it-works" class="scroll-arrow">
+            <i class="fas fa-chevron-down"></i>
+        </a>
+    </section>
+
+    <!-- Section 3: How It Works -->
+    <section id="how-it-works" class="challenge">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">How This MD Built It (And How You Can Too)</h2>
+                <p class="section-intro">
+                    <strong>The key insight: You don't write code — you describe what you need in plain English.</strong><br>
+                    Here's exactly what happened in those two hours, step by step.
+                </p>
+            </div>
+
+            <div class="build-process-compact">
+                <div class="process-step-compact">
+                    <div class="step-number-compact">1</div>
+                    <div class="step-content-compact">
+                        <h4>Describe Problem</h4>
+                        <p>Explained business need in plain English</p>
+                    </div>
+                </div>
+
+                <div class="process-step-compact">
+                    <div class="step-number-compact">2</div>
+                    <div class="step-content-compact">
+                        <h4>AI Builds Solution</h4>
+                        <p>Cursor created full working application</p>
+                    </div>
+                </div>
+
+                <div class="process-step-compact">
+                    <div class="step-number-compact">3</div>
+                    <div class="step-content-compact">
+                        <h4>Refine via Chat</h4>
+                        <p>Improved logic through conversation</p>
+                    </div>
+                </div>
+
+                <div class="process-step-compact">
+                    <div class="step-number-compact">4</div>
+                    <div class="step-content-compact">
+                        <h4>Deploy & Run</h4>
+                        <p>Tested and launched in 2 hours</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="key-takeaway">
+                <p><strong>No coding skills needed — just business understanding.</strong> You can do this too.</p>
+            </div>
+        </div>
+        <a href="#implications" class="scroll-arrow">
+            <i class="fas fa-chevron-down"></i>
+        </a>
+    </section>
+
+    <!-- Section 4: What This Means for You -->
+    <section id="implications" class="cta">
+        <div class="container">
+            <div class="cta-content">
+                <h2 class="cta-title">What This Means for How You Work</h2>
+                <p class="cta-subtitle">
+                    <strong>When you can build solutions like this yourself,</strong> everything changes. You control the narrative, move at your own pace, and deliver exactly what's needed.<br>
+                    While others are scheduling meetings with developers, you're already demonstrating working applications. Here's what becomes possible:
+                </p>
+
+                <div class="implications-grid-compact">
+                    <div class="implication-card-compact">
+                        <i class="fas fa-handshake"></i>
+                        <h4>Client Meetings</h4>
+                        <p>Show working prototypes, not slides</p>
+                    </div>
+
+                    <div class="implication-card-compact">
+                        <i class="fas fa-lightbulb"></i>
+                        <h4>Idea Validation</h4>
+                        <p>Build and test in hours, not months</p>
+                    </div>
+
+                    <div class="implication-card-compact">
+                        <i class="fas fa-dollar-sign"></i>
+                        <h4>Win More Deals</h4>
+                        <p>Demonstrate real capability instantly</p>
+                    </div>
+
+                    <div class="implication-card-compact">
+                        <i class="fas fa-users"></i>
+                        <h4>Stand Out</h4>
+                        <p>Working demos vs competitor slides</p>
+                    </div>
+            </div>
+        </div>
+        <a href="#capabilities" class="scroll-arrow">
+            <i class="fas fa-chevron-down"></i>
+        </a>
+    </section>
+
+    <!-- Section 5: What's Now Possible -->
+    <section id="capabilities" class="breakthrough">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">The Core Capabilities You'll Have</h2>
+                <p class="section-intro">
+                    <strong>These AI development tools give you four fundamental capabilities.</strong><br>
+                    Each one opens new possibilities for how you engage with clients and drive business value.
+                </p>
+            </div>
+
+            <div class="capabilities-grid-compact">
+                <div class="capability-card-compact">
+                    <i class="fas fa-comments"></i>
+                    <h4>Plain English</h4>
+                    <p>Describe in business terms, AI writes the code</p>
+                </div>
+
+                <div class="capability-card-compact">
+                    <i class="fas fa-magic"></i>
+                    <h4>Hours Not Weeks</h4>
+                    <p>Build apps faster than making slides</p>
+                </div>
+
+                <div class="capability-card-compact">
+                    <i class="fas fa-sync-alt"></i>
+                    <h4>Instant Changes</h4>
+                    <p>Update based on feedback immediately</p>
+                </div>
+            </div>
+        </div>
+        <a href="#showcase" class="scroll-arrow">
+            <i class="fas fa-chevron-down"></i>
+        </a>
+    </section>
+
+    <!-- Section 6: Real Examples -->
+    <section id="showcase" class="showcase">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">More Real Examples</h2>
+                <p class="section-intro">
+                    Each built by MDs in hours. Click to see details.
+                </p>
+            </div>
+
+            <div class="showcase-grid">
+                <div class="prototype-card" onclick="openPrototype('mms')">
+                    <div class="prototype-visual mms">
+                        <i class="fas fa-tags"></i>
+                        <div class="time-stickie">
+                            <i class="fas fa-clock"></i>
+                            <span>2 hours</span>
+                        </div>
+                    </div>
+                    <div class="prototype-info">
+                        <h3>MMS Deal Tagging</h3>
+                        <p>Auto-identifies Data & AI opportunities</p>
+                    </div>
+                    <div class="prototype-action">
+                        <span>See Details</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </div>
+
+                <div class="prototype-card" onclick="openPrototype('vzt')">
+                    <div class="prototype-visual vzt">
+                        <i class="fas fa-project-diagram"></i>
+                        <div class="time-stickie">
+                            <i class="fas fa-clock"></i>
+                            <span>1 hour</span>
+                        </div>
+                    </div>
+                    <div class="prototype-info">
+                        <h3>VZT Circuit Decom</h3>
+                        <p>Identifies circuits for decommissioning</p>
+                    </div>
+                    <div class="prototype-action">
+                        <span>See Details</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </div>
+
+                <div class="prototype-card" onclick="openPrototype('training')">
+                    <div class="prototype-visual training">
+                        <i class="fas fa-graduation-cap"></i>
+                        <div class="time-stickie highlight">
+                            <i class="fas fa-clock"></i>
+                            <span>30 mins</span>
+                        </div>
+                    </div>
+                    <div class="prototype-info">
+                        <h3>Training Discovery</h3>
+                        <p>Auto-schedules training sessions</p>
+                    </div>
+                    <div class="prototype-action">
+                        <span>See Details</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </div>
+
+                <div class="prototype-card" onclick="openPrototype('vcg')">
+                    <div class="prototype-visual vcg">
+                        <i class="fas fa-layer-group"></i>
+                        <div class="time-stickie">
+                            <i class="fas fa-clock"></i>
+                            <span>4 hours</span>
+                        </div>
+                    </div>
+                    <div class="prototype-info">
+                        <h3>VCG CES Next Gen</h3>
+                        <p>Customer Experience modernization</p>
+                    </div>
+                    <div class="prototype-action">
+                        <span>See Details</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <a href="#economics" class="scroll-arrow">
+            <i class="fas fa-chevron-down"></i>
+        </a>
+    </section>
+
+    <!-- Section 7: The Economics -->
+    <section id="economics" class="economics">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">The Economics Make This Accessible</h2>
+                <p class="section-intro">
+                    <strong>Getting started is remarkably affordable.</strong><br>
+                    No large IT projects or development team approvals — just a simple subscription and you're building.
+                </p>
+            </div>
+
+            <div class="cost-comparison-compact">
+                <div class="comparison-item-compact traditional">
+                    <div class="comparison-icon"><i class="fas fa-laptop-code"></i></div>
+                    <h4>Traditional</h4>
+                    <div class="cost-big">$20K-$50K</div>
+                    <p>2-3 weeks</p>
+                </div>
+
+                <div class="comparison-divider-compact">
+                    <i class="fas fa-arrow-right"></i>
+                </div>
+
+                <div class="comparison-item-compact ai-powered">
+                    <div class="comparison-icon"><i class="fas fa-robot"></i></div>
+                    <h4>AI-Powered</h4>
+                    <div class="cost-big">$25-$70</div>
+                    <p>2-4 hours</p>
+                </div>
+            </div>
+
+            <div class="economics-note">
+                <p><strong>99.8% cost reduction.</strong> $20/month license + $5-$50 per project for AI usage.</p>
+            </div>
+        </div>
+        <a href="#next-steps" class="scroll-arrow">
+            <i class="fas fa-chevron-down"></i>
+        </a>
+    </section>
+
+    <!-- Section 8: Next Steps -->
+    <section id="next-steps" class="cta-final">
+        <div class="container">
+            <div class="cta-content">
+                <div class="action-section-compact">
+                    <div class="cta-header">
+                        <div class="cta-icon">
+                            <i class="fas fa-hand-pointer"></i>
+                        </div>
+                        <h2>Want It? Tell Us!</h2>
+                        <p class="cta-subtitle">Help us bring Cursor to the Verizon team</p>
+                    </div>
+                    
+                    <div class="status-cards">
+                        <div class="status-card current">
+                            <div class="card-icon"><i class="fas fa-info-circle"></i></div>
+                            <h4>Current Status</h4>
+                            <p>Cursor licenses not yet available for Verizon team</p>
+                        </div>
+                        <div class="status-card positive">
+                            <div class="card-icon"><i class="fas fa-rocket"></i></div>
+                            <h4>Good News</h4>
+                            <p>With enough interest, we can arrange team licenses</p>
+                        </div>
+                    </div>
+                    
+                    <div class="interest-form-new">
+                        <div class="form-header">
+                            <i class="fas fa-clipboard-list"></i>
+                            <h3>Show Your Interest</h3>
+                        </div>
+                        
+                        <div class="form-content">
+                            <div class="form-step">
+                                <div class="step-number">1</div>
+                                <div class="step-details">
+                                    <h4>Excel Link Coming Soon</h4>
+                                    <p>An Excel sheet will be circulated where you can add your details</p>
+                                </div>
+                            </div>
+                            
+                            <div class="form-step">
+                                <div class="step-number">2</div>
+                                <div class="step-details">
+                                    <h4>What to Include</h4>
+                                    <ul>
+                                        <li><strong>Your Name</strong></li>
+                                        <li><strong>Use Case 1:</strong> Specific client/project scenario</li>
+                                        <li><strong>Use Case 2:</strong> Another real application you'd build</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div class="example-box">
+                                <div class="example-header">
+                                    <i class="fas fa-lightbulb"></i>
+                                    <span>Example Use Cases:</span>
+                                </div>
+                                <ul>
+                                    <li>"Interactive ROI calculator for 5G pitch to Enterprise client"</li>
+                                    <li>"Live demo of network optimization dashboard for ops review"</li>
+                                    <li>"Client-facing cost comparison tool for migration proposals"</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="final-message-new">
+                        <i class="fas fa-users"></i>
+                        <p><strong>The more interest we show, the faster we can make this happen.</strong></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <a href="#meta-reveal" class="scroll-arrow">
+            <i class="fas fa-chevron-down"></i>
+        </a>
+    </section>
+
+    <!-- Section 9: Meta Reveal -->
+    <section id="meta-reveal" class="meta-reveal">
+        <div class="container">
+            <div class="reveal-content">
+                <div class="reveal-icon">
+                    <i class="fas fa-magic"></i>
+                </div>
+                <h2 class="reveal-title">Need More Motivation?</h2>
+                <div class="reveal-highlight">
+                    <span class="reveal-time">This entire site was built in 30 minutes.</span>
+                </div>
+                <p class="reveal-text">
+                    Yes, including the <strong>live agentic AI guide</strong> you see on the right. 
+                    That's analyzing your behavior, tracking your journey, and making intelligent recommendations in real-time.
+                </p>
+                <div class="reveal-breakdown">
+                    <div class="breakdown-item">
+                        <div class="breakdown-number">5 min</div>
+                        <div class="breakdown-label">Site Structure & Design</div>
+                    </div>
+                    <div class="breakdown-item">
+                        <div class="breakdown-number">15 min</div>
+                        <div class="breakdown-label">Content & Styling</div>
+                    </div>
+                    <div class="breakdown-item">
+                        <div class="breakdown-number">10 min</div>
+                        <div class="breakdown-label">AI Agent Integration</div>
+                    </div>
+                </div>
+                <div class="reveal-statement">
+                    <p><strong>If a website like this takes 30 minutes...</strong></p>
+                    <p class="reveal-question">What could you build for your next client meeting?</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Prototype Modal -->
+    <div id="prototypeModal" class="modal">
+        <div class="modal-overlay" onclick="closePrototype()"></div>
+        <div class="modal-content">
+            <button class="modal-close" onclick="closePrototype()">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="modal-body">
+                <div id="modalContent"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <h4>Accenture × Verizon</h4>
+                    <p>Understanding the AI development revolution</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-section">
+                        <h5>Explore</h5>
+                        <ul>
+                            <li><a href="#intro-cursor">What is Cursor</a></li>
+                            <li><a href="#featured-demo">The Story</a></li>
+                            <li><a href="#how-it-works">How It Works</a></li>
+                            <li><a href="#showcase">Examples</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h5>Get Started</h5>
+                        <ul>
+                            <li><a href="#economics">Economics</a></li>
+                            <li><a href="#next-steps">Next Steps</a></li>
+                            <li><a href="#hero">Back to Top</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Accenture-Verizon AI Development Primer | This site was built in under 2 hours using AI development tools</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="site-guide-ui.js"></script>
+</body>
+</html>

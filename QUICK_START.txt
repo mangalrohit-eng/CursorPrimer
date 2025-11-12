@@ -1,0 +1,85 @@
+========================================
+PRESENTATION COACH AGENT - QUICK START
+========================================
+
+🎯 STEP 1: INSTALL PYTHON
+--------------------------
+Download Python 3.10+ from: https://www.python.org/downloads/
+✅ IMPORTANT: Check "Add Python to PATH" during installation
+
+
+🔑 STEP 2: ADD YOUR OPENAI API KEY
+-----------------------------------
+1. Rename the file "env_template.txt" to ".env"
+2. Open the .env file
+3. Replace "your_openai_api_key_here" with your actual OpenAI API key
+4. Save the file
+
+Example:
+OPENAI_API_KEY=sk-proj-abc123xyz...
+
+(Get your key from: https://platform.openai.com/api-keys)
+
+
+📦 STEP 3: INSTALL DEPENDENCIES
+--------------------------------
+Open PowerShell or Command Prompt in this folder and run:
+
+    pip install -r requirements.txt
+
+Or if pip doesn't work:
+
+    python -m pip install -r requirements.txt
+
+
+🚀 STEP 4: START THE AGENT
+---------------------------
+Run:
+
+    python presentation_coach_agent.py
+
+You should see:
+    🤖 Starting Presentation Coach Agent...
+    📊 LangGraph-based agentic AI system
+    🌐 WebSocket endpoint: ws://localhost:8000/ws/coach
+
+
+💻 STEP 5: USE THE AGENT
+-------------------------
+1. Open index.html in your browser (it may already be open)
+2. Look for the "AI Coach" panel in the bottom-right corner
+3. Click "Start Coaching"
+4. Navigate through the presentation sections
+5. The agent will automatically monitor your pace and provide feedback!
+
+
+❓ TROUBLESHOOTING
+------------------
+- If Python not found: Make sure Python is installed and in PATH
+- If packages fail to install: Try running PowerShell as Administrator
+- If agent won't connect: Make sure the Python backend is running on port 8000
+- If you see OpenAI API errors: Check your API key in .env file
+
+
+📋 WHAT YOU GET
+---------------
+✅ Real LangGraph agent with multi-node workflow
+✅ LLM-based decision making (GPT-4)
+✅ Agent tools for pace analysis
+✅ State management across presentation
+✅ Real-time WebSocket communication
+✅ Visual feedback with animated modals
+
+
+🎓 LEARNING
+-----------
+This is a REAL agentic AI system, not a simulation. It demonstrates:
+- LangGraph workflow design
+- Tool calling
+- State management
+- Autonomous decision making
+- Real-time agent-human interaction
+
+
+Need help? Check AGENT_SETUP.md for detailed documentation.
+

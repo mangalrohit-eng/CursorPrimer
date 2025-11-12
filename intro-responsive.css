@@ -1,0 +1,40 @@
+/* Intro Cursor Section - Responsive */
+@media (max-width: 1024px) {
+    .intro-headline {
+        font-size: 2.5rem;
+    }
+
+    .intro-tagline {
+        font-size: 1.1rem;
+    }
+
+    .intro-benefits {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        padding: 0 1rem;
+    }
+
+    .benefit-item {
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .intro-cursor {
+        padding: 4rem 0 2rem 0;
+    }
+
+    .intro-headline {
+        font-size: 2rem;
+    }
+
+    .intro-tagline {
+        font-size: 1rem;
+    }
+
+    .btn-explore {
+        padding: 0.875rem 2rem;
+        font-size: 1rem;
+    }
+}
+
