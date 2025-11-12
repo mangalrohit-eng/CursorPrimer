@@ -520,7 +520,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         <div class="agent-header">
             <div class="agent-title">
                 <i class="fas fa-robot"></i>
-                <span>AI Guide</span>
+                <span>User Journey Analysis Agent</span>
             </div>
             <div class="agent-controls">
                 <div class="agent-status">
