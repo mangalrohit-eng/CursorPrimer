@@ -30,9 +30,9 @@ const SUMMARIES = {
 
 // Demo URLs
 const DEMO_URLS = {
-    'mms-tagging': '#',
-    'circuit-decom': '#',
-    'training-scheduler': '#',
+    'mms-tagging': 'https://shakespearean-translator-five.vercel.app',
+    'circuit-decom': 'https://hello-world-liard-six.vercel.app/',
+    'contact-center': 'https://contact-center-moderinizatoin.vercel.app',
     'ces-implementation': '#'
 };
 
