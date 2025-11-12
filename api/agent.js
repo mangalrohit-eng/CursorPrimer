@@ -3,10 +3,16 @@
 
 const OpenAI = require('openai');
 
-// Initialize OpenAI
-const openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY
-});
+// Initialize OpenAI only if API key is available
+let openai = null;
+if (process.env.OPENAI_API_KEY) {
+    openai = new OpenAI({
+        apiKey: process.env.OPENAI_API_KEY
+    });
+    console.log('✅ OpenAI initialized with API key');
+} else {
+    console.log('⚠️ OPENAI_API_KEY not set - will use rule-based narratives only');
+}
 
 // Section summaries
 const SUMMARIES = {
@@ -103,8 +109,8 @@ async function generateNarrative(session, trigger) {
     const behavior = analyzeBehavior(session);
     
     if (trigger === 'summary') {
-        // Try OpenAI first for richer insights
-        if (process.env.OPENAI_API_KEY) {
+        // Try OpenAI first for richer insights (only if initialized)
+        if (openai) {
             try {
                 console.log('🤖 Calling OpenAI for narrative generation...');
                 
