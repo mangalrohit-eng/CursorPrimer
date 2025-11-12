@@ -1,0 +1,26 @@
+/* Enhanced padding for agent UI */
+.agent-summary {
+    padding: 2rem !important;
+}
+
+.summary-item {
+    padding: 1rem 1.25rem !important;
+    gap: 1rem !important;
+}
+
+.narrative-section {
+    padding: 1.25rem 1.5rem !important;
+}
+
+.narrative-text {
+    padding: 0.25rem 0 !important;
+}
+
+.status-text {
+    padding: 3rem 2rem !important;
+}
+
+.item-value {
+    padding-right: 0.5rem !important;
+}
+
