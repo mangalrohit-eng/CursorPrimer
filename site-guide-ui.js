@@ -46,6 +46,7 @@ class SiteGuideAgent {
 
     async sendBehaviorUpdate(behaviorType, data) {
         if (!this.apiUrl || !this.sessionId) {
+            console.warn('Agent not initialized:', { apiUrl: this.apiUrl, sessionId: this.sessionId });
             return;
         }
 
@@ -58,10 +59,24 @@ class SiteGuideAgent {
 
         console.log('[Agent Observing]', observations[behaviorType] || behaviorType);
 
-        // Don't show simple observations - wait for AI analysis
-        // The thinking panel will be updated when analysis comes back
+        // Show immediate feedback in the thinking panel
+        const thinkingEl = document.querySelector('#agent-thinking .thinking-content');
+        if (thinkingEl) {
+            thinkingEl.innerHTML = `
+                <div class="observation-item">
+                    ${observations[behaviorType] || behaviorType}
+                </div>
+            `;
+            thinkingEl.style.opacity = '1';
+        }
 
         try {
+            console.log('Sending to agent:', this.apiUrl, {
+                sessionId: this.sessionId,
+                type: 'behavior',
+                data: { behaviorType, ...data }
+            });
+            
             const response = await fetch(this.apiUrl, {
                 method: 'POST',
                 headers: {
@@ -77,14 +92,32 @@ class SiteGuideAgent {
                 })
             });
             
+            console.log('Agent response status:', response.status);
+            
             if (response.ok) {
                 const result = await response.json();
+                console.log('Agent result:', result);
+                
                 if (result.type === 'analysis') {
                     this.handleAnalysis(result);
+                } else {
+                    console.log('Result type:', result.type, '(not analysis, so no action)');
                 }
+            } else {
+                const errorText = await response.text();
+                console.error('Agent error response:', response.status, errorText);
             }
         } catch (error) {
             console.error('Error sending behavior update:', error);
+            
+            // Show error in thinking panel
+            if (thinkingEl) {
+                thinkingEl.innerHTML = `
+                    <div class="thought-item" style="color: #ff6b6b;">
+                        ⚠️ Agent offline or error occurred
+                    </div>
+                `;
+            }
         }
     }
 
@@ -230,10 +263,12 @@ class SiteGuideAgent {
         let dwellTime = 0;
         this.dwellTimers[sectionId] = setInterval(() => {
             dwellTime++;
+            console.log(`⏱️ Dwell timer: ${sectionId} = ${dwellTime}s`);
             
             if (this.currentSection === sectionId) {
                 // Send dwell time updates at specific intervals
                 if (dwellTime === 3 || dwellTime === 8 || dwellTime % 15 === 0) {
+                    console.log(`📤 Triggering analysis at ${dwellTime}s`);
                     this.sendBehaviorUpdate('section_dwell', {
                         section: sectionId,
                         dwellTime
