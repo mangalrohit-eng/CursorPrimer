@@ -205,10 +205,23 @@ module.exports = async (req, res) => {
                     session.sectionTimestamps[section] = Date.now();
                 }
             } else if (behaviorType === 'section_dwell') {
-                // Check if we should proactively suggest
-                if (dwellTime >= 15) {
+                // Analyze and respond at 8 seconds or more
+                if (dwellTime >= 8) {
                     const narrative = await generateNarrative(session, 'summary');
                     const behavior = analyzeBehavior(session);
+                    
+                    // Build journey summary
+                    const journeySummary = `You've visited: ${session.visitedSections.join(' → ')}. Currently on ${data.section} for ${dwellTime}s.`;
+                    
+                    // Find section with most dwell time
+                    let maxDwell = 0;
+                    let maxSection = '';
+                    for (const [sec, time] of Object.entries(behavior.dwellTimes)) {
+                        if (time > maxDwell) {
+                            maxDwell = time;
+                            maxSection = sec;
+                        }
+                    }
                     
                     // Predict next section
                     const unvisited = getUnvisitedSections(session);
@@ -226,15 +239,16 @@ module.exports = async (req, res) => {
                         type: 'analysis',
                         narrative,
                         thinking: {
+                            journey: journeySummary,
+                            mostInterested: maxSection ? `Most time on: ${maxSection} (${maxDwell}s)` : 'Just started exploring',
                             engagement: `${behavior.timeOnSite}s on site, ${behavior.visitedCount} sections visited`,
-                            dwellTimes: behavior.dwellTimes,
                             profile: behavior.profile,
-                            interests: behavior.interests,
-                            prediction,
                             motivation: behavior.profile === 'decision-maker' ? 'Seeking ROI validation' :
                                        behavior.profile === 'analyst' ? 'Understanding technical details' :
                                        behavior.profile === 'explorer' ? 'Discovering possibilities' :
-                                       'Evaluating quickly'
+                                       'Evaluating quickly',
+                            interests: behavior.interests.length > 0 ? behavior.interests.join(', ') : 'exploring broadly',
+                            prediction
                         }
                     });
                     return;

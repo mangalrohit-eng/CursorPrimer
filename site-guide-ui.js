@@ -30,13 +30,17 @@ class SiteGuideAgent {
     }
     
     handleAnalysis(data) {
+        console.log('📊 Analysis received:', data);
+        
+        // Always show thinking first (the detailed breakdown)
+        if (data.thinking) {
+            this.showThinking(data.thinking);
+        }
+        
+        // Then show the AI narrative (the insight)
         if (data.narrative) {
             this.updateNarrative(data.narrative);
             this.showNotificationBadge();
-        }
-        
-        if (data.thinking) {
-            this.showThinking(data.thinking);
         }
     }
 
@@ -54,15 +58,8 @@ class SiteGuideAgent {
 
         console.log('[Agent Observing]', observations[behaviorType] || behaviorType);
 
-        const thinkingEl = document.querySelector('#agent-thinking .thinking-content');
-        if (thinkingEl && observations[behaviorType]) {
-            thinkingEl.innerHTML = `
-                <div class="observation-item">
-                    ${observations[behaviorType]}
-                </div>
-            `;
-            thinkingEl.style.opacity = '1';
-        }
+        // Don't show simple observations - wait for AI analysis
+        // The thinking panel will be updated when analysis comes back
 
         try {
             const response = await fetch(this.apiUrl, {
@@ -248,30 +245,48 @@ class SiteGuideAgent {
 
     showThinking(thought) {
         const thinkingEl = document.querySelector('#agent-thinking .thinking-content');
-        if (!thinkingEl) return;
+        if (!thinkingEl) {
+            console.warn('Thinking element not found');
+            return;
+        }
 
         // Handle both string and object thinking data
         if (typeof thought === 'object') {
             let html = '<div class="detailed-thinking">';
             
-            if (thought.engagement) {
-                html += `<div class="thought-item"><strong>📊 Engagement:</strong> ${thought.engagement}</div>`;
+            // Journey summary
+            if (thought.journey) {
+                html += `<div class="thought-item"><strong>🗺️ Journey:</strong> ${thought.journey}</div>`;
             }
+            
+            // Most interested section
+            if (thought.mostInterested) {
+                html += `<div class="thought-item"><strong>⏱️ Focus:</strong> ${thought.mostInterested}</div>`;
+            }
+            
+            // Profile
             if (thought.profile) {
                 html += `<div class="thought-item"><strong>👤 Profile:</strong> ${thought.profile}</div>`;
             }
+            
+            // Motivation
             if (thought.motivation) {
                 html += `<div class="thought-item"><strong>🎯 Motivation:</strong> ${thought.motivation}</div>`;
             }
-            if (thought.interests && thought.interests.length > 0) {
-                html += `<div class="thought-item"><strong>💡 Interests:</strong> ${thought.interests.join(', ')}</div>`;
+            
+            // Interests
+            if (thought.interests) {
+                html += `<div class="thought-item"><strong>💡 Interests:</strong> ${thought.interests}</div>`;
             }
+            
+            // Prediction
             if (thought.prediction) {
                 html += `<div class="thought-item"><strong>🔮 Prediction:</strong> ${thought.prediction}</div>`;
             }
             
             html += '</div>';
             thinkingEl.innerHTML = html;
+            console.log('✅ Thinking displayed:', html);
         } else {
             thinkingEl.innerHTML = `
                 <div class="thought-item">
