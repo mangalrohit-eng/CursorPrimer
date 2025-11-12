@@ -32,16 +32,43 @@ class SiteGuideAgent {
     handleAnalysis(data) {
         console.log('📊 Analysis received:', data);
         
-        // Always show thinking first (the detailed breakdown)
+        // Combine thinking and narrative into one unified summary
+        const summaryEl = document.querySelector('#agent-summary .summary-content');
+        if (!summaryEl) return;
+        
+        let html = '';
+        
+        // Add thinking details
         if (data.thinking) {
-            this.showThinking(data.thinking);
+            if (data.thinking.journey) {
+                html += `<p class="summary-item"><strong>Journey:</strong> ${data.thinking.journey}</p>`;
+            }
+            if (data.thinking.mostInterested) {
+                html += `<p class="summary-item"><strong>Focus:</strong> ${data.thinking.mostInterested}</p>`;
+            }
+            if (data.thinking.profile) {
+                html += `<p class="summary-item"><strong>Profile:</strong> ${data.thinking.profile}</p>`;
+            }
+            if (data.thinking.motivation) {
+                html += `<p class="summary-item"><strong>Motivation:</strong> ${data.thinking.motivation}</p>`;
+            }
+            if (data.thinking.interests) {
+                html += `<p class="summary-item"><strong>Interests:</strong> ${data.thinking.interests}</p>`;
+            }
         }
         
-        // Then show the AI narrative (the insight)
+        // Add AI narrative
         if (data.narrative) {
-            this.updateNarrative(data.narrative);
-            this.showNotificationBadge();
+            const formattedNarrative = data.narrative
+                .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+                .replace(/\n\n/g, '</p><p class="narrative-text">')
+                .replace(/\n/g, '<br>');
+            
+            html += `<div class="narrative-section"><p class="narrative-text">${formattedNarrative}</p></div>`;
         }
+        
+        summaryEl.innerHTML = html;
+        this.showNotificationBadge();
     }
 
     async sendBehaviorUpdate(behaviorType, data) {
@@ -59,15 +86,13 @@ class SiteGuideAgent {
 
         console.log('[Agent Observing]', observations[behaviorType] || behaviorType);
 
-        // Show immediate feedback in the thinking panel
-        const thinkingEl = document.querySelector('#agent-thinking .thinking-content');
-        if (thinkingEl) {
-            thinkingEl.innerHTML = `
-                <div class="observation-item">
-                    ${observations[behaviorType] || behaviorType}
-                </div>
-            `;
-            thinkingEl.style.opacity = '1';
+        // Show "Updating..." status while waiting for analysis
+        const summaryEl = document.querySelector('#agent-summary .summary-content');
+        if (summaryEl && behaviorType === 'section_dwell' && data.dwellTime >= 3) {
+            const titleEl = document.querySelector('#agent-summary .summary-title');
+            if (titleEl) {
+                titleEl.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Updating...';
+            }
         }
 
         try {
@@ -99,6 +124,11 @@ class SiteGuideAgent {
                 console.log('Agent result:', result);
                 
                 if (result.type === 'analysis') {
+                    // Reset title to "User Summary"
+                    const titleEl = document.querySelector('#agent-summary .summary-title');
+                    if (titleEl) {
+                        titleEl.textContent = 'User Summary';
+                    }
                     this.handleAnalysis(result);
                 } else {
                     console.log('Result type:', result.type, '(not analysis, so no action)');
@@ -467,13 +497,11 @@ document.addEventListener('DOMContentLoaded', async () => {
             </div>
         </div>
         
-        <div class="agent-thinking" id="agent-thinking">
-            <div class="thinking-label"><i class="fas fa-brain"></i> Agent Reasoning:</div>
-            <div class="thinking-content"></div>
-        </div>
-        
-        <div class="agent-narrative" id="agent-narrative">
-            <div class="narrative-text">Analyzing your journey...</div>
+        <div class="agent-summary" id="agent-summary">
+            <div class="summary-title">User Summary</div>
+            <div class="summary-content">
+                <p class="status-text">Observing your journey...</p>
+            </div>
         </div>
     `;
     
