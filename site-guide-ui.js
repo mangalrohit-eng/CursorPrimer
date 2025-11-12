@@ -360,11 +360,21 @@ class SiteGuideAgent {
         const narrativeEl = document.getElementById('agent-narrative');
         if (!narrativeEl) return;
 
-        // Simple markdown support
-        const formattedText = text
-            .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+        // Enhanced markdown support with better formatting
+        let formattedText = text
+            // Bold text
+            .replace(/\*\*([^*]+)\*\*/g, '<strong class="highlight">$1</strong>')
+            // Italic text
             .replace(/\*([^*]+)\*/g, '<em>$1</em>')
-            .replace(/\n\n/g, '<br><br>');
+            // Double line breaks = paragraph
+            .replace(/\n\n/g, '</p><p>')
+            // Single line breaks = line break
+            .replace(/\n/g, '<br>')
+            // Emoji bullets for better readability
+            .replace(/💡/g, '<br><span class="insight-icon">💡</span>');
+        
+        // Wrap in paragraphs
+        formattedText = `<p>${formattedText}</p>`;
 
         // Fade out
         narrativeEl.style.opacity = '0.5';
