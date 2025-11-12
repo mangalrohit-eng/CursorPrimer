@@ -463,7 +463,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         </div>
         
         <div class="agent-narrative" id="agent-narrative">
-            <div class="narrative-text">Welcome! I'm watching your journey through this site and will guide you along the way.</div>
+            <div class="narrative-text">Analyzing your journey...</div>
         </div>
     `;
     

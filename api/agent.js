@@ -103,7 +103,48 @@ async function generateNarrative(session, trigger) {
     const behavior = analyzeBehavior(session);
     
     if (trigger === 'summary') {
-        // Build rich rule-based narrative (always works)
+        // Try OpenAI first for richer insights
+        if (process.env.OPENAI_API_KEY) {
+            try {
+                console.log('🤖 Calling OpenAI for narrative generation...');
+                
+                const prompt = `You are an AI observer analyzing a user's behavior on a website about AI-powered development tools (Cursor).
+
+User Behavior Data:
+- Time on site: ${behavior.timeOnSite} seconds
+- Sections visited: ${behavior.visitedCount} (${session.visitedSections.join(', ')})
+- Dwell times: ${JSON.stringify(behavior.dwellTimes)}
+- Detected interests: ${behavior.interests.join(', ') || 'exploring'}
+- Profile type: ${behavior.profile}
+
+Provide a 2-3 sentence executive summary of:
+1. What the user's behavior reveals about their mindset and motivations
+2. What they're likely looking for or trying to understand
+3. A personalized insight or recommendation
+
+Be conversational and insightful. Focus on psychology and intent, not just data.`;
+
+                const completion = await openai.chat.completions.create({
+                    model: 'gpt-4',
+                    messages: [
+                        { role: 'system', content: 'You are a perceptive AI observer who understands user psychology and intent from behavior patterns.' },
+                        { role: 'user', content: prompt }
+                    ],
+                    temperature: 0.7,
+                    max_tokens: 200
+                });
+                
+                console.log('✅ OpenAI response received');
+                return completion.choices[0].message.content;
+                
+            } catch (error) {
+                console.error('❌ OpenAI error (falling back to rule-based):', error.message || error);
+            }
+        } else {
+            console.log('⚠️ OPENAI_API_KEY not set, using rule-based narrative');
+        }
+        
+        // Fallback: Build rich rule-based narrative
         let narrative = `You've visited ${behavior.visitedCount} sections so far (${session.visitedSections.join(' → ')}). `;
         
         // Find section with most dwell time
@@ -149,44 +190,6 @@ async function generateNarrative(session, trigger) {
         }
         
         return narrative;
-        
-        // Optional: Try OpenAI enhancement if API key is available
-        // Commented out for now to ensure consistent behavior
-        /*
-        try {
-            if (process.env.OPENAI_API_KEY) {
-                const prompt = `You are an AI observer analyzing a user's behavior on a website about AI-powered development tools (Cursor).
-
-User Behavior Data:
-- Time on site: ${behavior.timeOnSite} seconds
-- Sections visited: ${behavior.visitedCount} (${session.visitedSections.join(', ')})
-- Dwell times: ${JSON.stringify(behavior.dwellTimes)}
-- Detected interests: ${behavior.interests.join(', ') || 'exploring'}
-- Profile type: ${behavior.profile}
-
-Provide a 2-3 sentence executive summary of:
-1. What the user's behavior reveals about their mindset and motivations
-2. What they're likely looking for or trying to understand
-3. A personalized insight or recommendation
-
-Be conversational and insightful. Focus on psychology and intent, not just data.`;
-
-                const completion = await openai.chat.completions.create({
-                    model: 'gpt-4',
-                    messages: [
-                        { role: 'system', content: 'You are a perceptive AI observer who understands user psychology and intent from behavior patterns.' },
-                        { role: 'user', content: prompt }
-                    ],
-                    temperature: 0.7,
-                    max_tokens: 200
-                });
-                
-                return completion.choices[0].message.content;
-            }
-        } catch (error) {
-            console.error('OpenAI error (falling back to rule-based):', error);
-        }
-        */
     }
     
     return '';
