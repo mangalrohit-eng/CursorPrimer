@@ -16,7 +16,7 @@ const SUMMARIES = {
     'how-it-works': 'Building with Cursor is conversational: describe what you want, the AI generates it, you refine through dialogue, and deploy. No traditional coding required—just clear communication of your vision.',
     'capabilities': 'These tools excel at building client dashboards, automating workflows, analyzing data patterns, and creating interactive presentations. They transform abstract ideas into tangible, working prototypes.',
     'showcase': 'Our team has built real business tools in hours: MMS tagging (2hrs), circuit decom (1hr), training scheduler (30min), and CES implementation (4hrs). Each prototype solved actual business challenges.',
-    'economics': 'The economics are compelling: $20/month for Cursor plus $5-50 in AI costs per project. Compare that to $20K-50K for traditional development. That's 99.8% cost reduction with faster delivery.',
+    'economics': 'The economics are compelling: $20/month for Cursor plus $5-50 in AI costs per project. Compare that to $20K-50K for traditional development. That\'s 99.8% cost reduction with faster delivery.',
     'next-steps': 'Ready to try this? We don't have licenses for the Verizon team yet, but if there's interest, we'll arrange them. Share your name and two use cases you'd tackle with Cursor.',
     'meta-reveal': 'Final proof point: this entire website—including the AI agent observing you—was built in 30 minutes using Cursor. That's the power of AI-assisted development.',
     'cta-final': 'Ready to transform how you show up to clients? Stop presenting ideas on slides—start showing working prototypes. Express your interest and we'll get you started with Cursor.'
