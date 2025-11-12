@@ -250,18 +250,37 @@ class SiteGuideAgent {
         const thinkingEl = document.querySelector('#agent-thinking .thinking-content');
         if (!thinkingEl) return;
 
-        thinkingEl.innerHTML = `
-            <div class="thought-item">
-                <i class="fas fa-lightbulb"></i> ${thought}
-            </div>
-        `;
-        
-        // Auto-fade after 3 seconds
-        setTimeout(() => {
-            if (thinkingEl.innerHTML.includes(thought)) {
-                thinkingEl.style.opacity = '0.5';
+        // Handle both string and object thinking data
+        if (typeof thought === 'object') {
+            let html = '<div class="detailed-thinking">';
+            
+            if (thought.engagement) {
+                html += `<div class="thought-item"><strong>📊 Engagement:</strong> ${thought.engagement}</div>`;
             }
-        }, 3000);
+            if (thought.profile) {
+                html += `<div class="thought-item"><strong>👤 Profile:</strong> ${thought.profile}</div>`;
+            }
+            if (thought.motivation) {
+                html += `<div class="thought-item"><strong>🎯 Motivation:</strong> ${thought.motivation}</div>`;
+            }
+            if (thought.interests && thought.interests.length > 0) {
+                html += `<div class="thought-item"><strong>💡 Interests:</strong> ${thought.interests.join(', ')}</div>`;
+            }
+            if (thought.prediction) {
+                html += `<div class="thought-item"><strong>🔮 Prediction:</strong> ${thought.prediction}</div>`;
+            }
+            
+            html += '</div>';
+            thinkingEl.innerHTML = html;
+        } else {
+            thinkingEl.innerHTML = `
+                <div class="thought-item">
+                    <i class="fas fa-lightbulb"></i> ${thought}
+                </div>
+            `;
+        }
+        
+        thinkingEl.style.opacity = '1';
     }
 
     showToolCall(tool, args) {

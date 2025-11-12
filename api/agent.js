@@ -98,29 +98,62 @@ function analyzeBehavior(session) {
     };
 }
 
-// Generate narrative based on behavior
-function generateNarrative(session, trigger) {
+// Generate AI-powered narrative based on behavior
+async function generateNarrative(session, trigger) {
     const behavior = analyzeBehavior(session);
     
     if (trigger === 'summary') {
-        // Detailed persona analysis
-        let narrative = `Based on ${behavior.timeOnSite}s across ${behavior.visitedCount} sections, I see you as a **${behavior.profile}**.\n\n`;
-        
-        if (behavior.profile === 'decision-maker') {
-            narrative += 'You\'ve shown strong interest in business value and ROI. You\'re evaluating whether this is worth investing in.';
-        } else if (behavior.profile === 'analyst') {
-            narrative += 'You\'re diving deep into how this actually works. You want to understand the mechanics before committing.';
-        } else if (behavior.profile === 'explorer') {
-            narrative += 'You\'re browsing to get a sense of what\'s possible. Still forming your opinion.';
-        } else if (behavior.profile === 'skeptic') {
-            narrative += 'You\'re moving quickly, possibly skeptical. You need a compelling reason to engage further.';
+        // Use OpenAI for deeper analysis
+        try {
+            const prompt = `You are an AI observer analyzing a user's behavior on a website about AI-powered development tools (Cursor).
+
+User Behavior Data:
+- Time on site: ${behavior.timeOnSite} seconds
+- Sections visited: ${behavior.visitedCount} (${session.visitedSections.join(', ')})
+- Dwell times: ${JSON.stringify(behavior.dwellTimes)}
+- Detected interests: ${behavior.interests.join(', ') || 'exploring'}
+- Profile type: ${behavior.profile}
+
+Provide a 2-3 sentence executive summary of:
+1. What the user's behavior reveals about their mindset and motivations
+2. What they're likely looking for or trying to understand
+3. A personalized insight or recommendation
+
+Be conversational and insightful. Focus on psychology and intent, not just data.`;
+
+            const completion = await openai.chat.completions.create({
+                model: 'gpt-4',
+                messages: [
+                    { role: 'system', content: 'You are a perceptive AI observer who understands user psychology and intent from behavior patterns.' },
+                    { role: 'user', content: prompt }
+                ],
+                temperature: 0.7,
+                max_tokens: 200
+            });
+            
+            return completion.choices[0].message.content;
+            
+        } catch (error) {
+            console.error('OpenAI error:', error);
+            // Fallback to rule-based analysis
+            let narrative = `Based on ${behavior.timeOnSite}s across ${behavior.visitedCount} sections, I see you as a **${behavior.profile}**.\n\n`;
+            
+            if (behavior.profile === 'decision-maker') {
+                narrative += 'You\'ve shown strong interest in business value and ROI. You\'re evaluating whether this is worth investing in.';
+            } else if (behavior.profile === 'analyst') {
+                narrative += 'You\'re diving deep into how this actually works. You want to understand the mechanics before committing.';
+            } else if (behavior.profile === 'explorer') {
+                narrative += 'You\'re browsing to get a sense of what\'s possible. Still forming your opinion.';
+            } else if (behavior.profile === 'skeptic') {
+                narrative += 'You\'re moving quickly, possibly skeptical. You need a compelling reason to engage further.';
+            }
+            
+            if (behavior.interests.length > 0) {
+                narrative += `\n\n**Key interests**: ${behavior.interests.join(', ')}`;
+            }
+            
+            return narrative;
         }
-        
-        if (behavior.interests.length > 0) {
-            narrative += `\n\n**Key interests**: ${behavior.interests.join(', ')}`;
-        }
-        
-        return narrative;
     }
     
     return '';
@@ -174,7 +207,7 @@ module.exports = async (req, res) => {
             } else if (behaviorType === 'section_dwell') {
                 // Check if we should proactively suggest
                 if (dwellTime >= 15) {
-                    const narrative = generateNarrative(session, 'summary');
+                    const narrative = await generateNarrative(session, 'summary');
                     const behavior = analyzeBehavior(session);
                     
                     // Predict next section
@@ -197,7 +230,11 @@ module.exports = async (req, res) => {
                             dwellTimes: behavior.dwellTimes,
                             profile: behavior.profile,
                             interests: behavior.interests,
-                            prediction
+                            prediction,
+                            motivation: behavior.profile === 'decision-maker' ? 'Seeking ROI validation' :
+                                       behavior.profile === 'analyst' ? 'Understanding technical details' :
+                                       behavior.profile === 'explorer' ? 'Discovering possibilities' :
+                                       'Evaluating quickly'
                         }
                     });
                     return;
@@ -214,7 +251,7 @@ module.exports = async (req, res) => {
             
             // Generate response based on message
             if (message.toLowerCase().includes('summary') || message.toLowerCase().includes('journey')) {
-                const narrative = generateNarrative(session, 'summary');
+                const narrative = await generateNarrative(session, 'summary');
                 const behavior = analyzeBehavior(session);
                 
                 res.status(200).json({
