@@ -38,33 +38,69 @@ class SiteGuideAgent {
         
         let html = '';
         
-        // Add thinking details
+        // Add thinking details with icons
         if (data.thinking) {
             if (data.thinking.journey) {
-                html += `<p class="summary-item"><strong>Journey:</strong> ${data.thinking.journey}</p>`;
+                html += `<div class="summary-item">
+                    <span class="item-icon">🗺️</span>
+                    <div class="item-content">
+                        <span class="item-label">Journey</span>
+                        <span class="item-value">${data.thinking.journey}</span>
+                    </div>
+                </div>`;
             }
             if (data.thinking.mostInterested) {
-                html += `<p class="summary-item"><strong>Focus:</strong> ${data.thinking.mostInterested}</p>`;
+                html += `<div class="summary-item">
+                    <span class="item-icon">⏱️</span>
+                    <div class="item-content">
+                        <span class="item-label">Focus</span>
+                        <span class="item-value">${data.thinking.mostInterested}</span>
+                    </div>
+                </div>`;
             }
             if (data.thinking.profile) {
-                html += `<p class="summary-item"><strong>Profile:</strong> ${data.thinking.profile}</p>`;
+                html += `<div class="summary-item">
+                    <span class="item-icon">👤</span>
+                    <div class="item-content">
+                        <span class="item-label">Profile</span>
+                        <span class="item-value profile-badge">${data.thinking.profile}</span>
+                    </div>
+                </div>`;
             }
             if (data.thinking.motivation) {
-                html += `<p class="summary-item"><strong>Motivation:</strong> ${data.thinking.motivation}</p>`;
+                html += `<div class="summary-item">
+                    <span class="item-icon">🎯</span>
+                    <div class="item-content">
+                        <span class="item-label">Motivation</span>
+                        <span class="item-value">${data.thinking.motivation}</span>
+                    </div>
+                </div>`;
             }
             if (data.thinking.interests) {
-                html += `<p class="summary-item"><strong>Interests:</strong> ${data.thinking.interests}</p>`;
+                html += `<div class="summary-item">
+                    <span class="item-icon">💡</span>
+                    <div class="item-content">
+                        <span class="item-label">Interests</span>
+                        <span class="item-value">${data.thinking.interests}</span>
+                    </div>
+                </div>`;
             }
         }
         
         // Add AI narrative
         if (data.narrative) {
             const formattedNarrative = data.narrative
-                .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+                .replace(/\*\*([^*]+)\*\*/g, '<span class="highlight">$1</span>')
                 .replace(/\n\n/g, '</p><p class="narrative-text">')
                 .replace(/\n/g, '<br>');
             
-            html += `<div class="narrative-section"><p class="narrative-text">${formattedNarrative}</p></div>`;
+            html += `<div class="narrative-section">
+                <div class="narrative-header">
+                    <i class="fas fa-brain"></i>
+                    <span>AI Insight</span>
+                </div>
+                <p class="narrative-text">${formattedNarrative}</p>
+            </div>`;
         }
         
         summaryEl.innerHTML = html;
