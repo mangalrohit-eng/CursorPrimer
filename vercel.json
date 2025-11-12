@@ -1,37 +1,15 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "index.html",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "site-guide-agent.js",
-      "use": "@vercel/node"
+  "functions": {
+    "api/**/*.js": {
+      "maxDuration": 10
     }
-  ],
-  "routes": [
+  },
+  "rewrites": [
     {
-      "src": "/ws",
-      "dest": "site-guide-agent.js"
-    },
-    {
-      "src": "/health",
-      "dest": "site-guide-agent.js"
-    },
-    {
-      "src": "/(.*\\.(css|js|svg|png|jpg|jpeg|gif|ico|woff|woff2|ttf))",
-      "headers": {
-        "Cache-Control": "public, max-age=31536000, immutable"
-      }
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/index.html"
+      "source": "/api/:path*",
+      "destination": "/api/:path*"
     }
-  ],
-  "env": {
-    "OPENAI_API_KEY": "@openai-api-key"
-  }
+  ]
 }
 

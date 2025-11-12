@@ -5,44 +5,43 @@
 
 class SiteGuideAgent {
     constructor() {
-        this.ws = null;
+        this.apiUrl = null;
+        this.sessionId = null;
         this.currentSection = null;
         this.dwellTimers = {};
     }
-
-    async connect() {
-        return new Promise((resolve, reject) => {
-            // Auto-detect WebSocket URL for local and production
-            const wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-            const wsHost = window.location.hostname === 'localhost' ? 'localhost:8000' : window.location.host;
-            this.ws = new WebSocket(`${wsProtocol}//${wsHost}`);
-            
-            this.ws.onopen = () => {
-                console.log('🤖 Site Guide Agent Connected');
-                this.updateStatus('connected');
-                resolve();
-            };
-            
-            this.ws.onmessage = (event) => {
-                const data = JSON.parse(event.data);
-                this.handleMessage(data);
-            };
-            
-            this.ws.onerror = (error) => {
-                console.error('WebSocket error:', error);
-                this.updateStatus('error');
-                reject(error);
-            };
-            
-            this.ws.onclose = () => {
-                console.log('🤖 Disconnected');
-                this.updateStatus('disconnected');
-            };
-        });
+    
+    generateSessionId() {
+        return 'session_' + Math.random().toString(36).substring(2) + Date.now();
     }
 
-    sendBehaviorUpdate(behaviorType, data) {
-        if (!this.ws || this.ws.readyState !== WebSocket.OPEN) {
+    async connect() {
+        // Use HTTP POST instead of WebSocket for Vercel compatibility
+        this.apiUrl = window.location.hostname === 'localhost' 
+            ? 'http://localhost:3000/api/agent'
+            : '/api/agent';
+        
+        this.sessionId = this.generateSessionId();
+        this.updateStatus('connected');
+        console.log('🤖 Site Guide Agent Connected (HTTP mode)');
+        
+        return Promise.resolve();
+            
+    }
+    
+    handleAnalysis(data) {
+        if (data.narrative) {
+            this.updateNarrative(data.narrative);
+            this.showNotificationBadge();
+        }
+        
+        if (data.thinking) {
+            this.showThinking(data.thinking);
+        }
+    }
+
+    async sendBehaviorUpdate(behaviorType, data) {
+        if (!this.apiUrl || !this.sessionId) {
             return;
         }
 
@@ -52,6 +51,8 @@ class SiteGuideAgent {
             'section_entered': `👁️ User entered: ${data.section}`,
             'section_dwell': `⏱️ User dwelling on ${data.section} (${data.dwellTime}s)`
         };
+
+        console.log('[Agent Observing]', observations[behaviorType] || behaviorType);
 
         const thinkingEl = document.querySelector('#agent-thinking .thinking-content');
         if (thinkingEl && observations[behaviorType]) {
@@ -63,13 +64,31 @@ class SiteGuideAgent {
             thinkingEl.style.opacity = '1';
         }
 
-        this.ws.send(JSON.stringify({
-            type: 'behavior',
-            behaviorType,
-            data,
-            currentSection: this.currentSection,
-            timestamp: Date.now()
-        }));
+        try {
+            const response = await fetch(this.apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    sessionId: this.sessionId,
+                    type: 'behavior',
+                    data: {
+                        behaviorType,
+                        ...data
+                    }
+                })
+            });
+            
+            if (response.ok) {
+                const result = await response.json();
+                if (result.type === 'analysis') {
+                    this.handleAnalysis(result);
+                }
+            }
+        } catch (error) {
+            console.error('Error sending behavior update:', error);
+        }
     }
 
     handleMessage(data) {
