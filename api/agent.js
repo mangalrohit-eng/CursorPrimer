@@ -232,65 +232,88 @@ module.exports = async (req, res) => {
         if (type === 'behavior') {
             const { behaviorType, section, dwellTime } = data;
             
+            console.log(`📥 Behavior update: ${behaviorType}`, { section, dwellTime, sessionId });
+            
             if (behaviorType === 'page_loaded') {
                 session.sessionStartTime = Date.now();
+                console.log('✅ Page loaded, session started');
             } else if (behaviorType === 'section_entered') {
                 session.currentSection = section;
                 if (!session.visitedSections.includes(section)) {
                     session.visitedSections.push(section);
                     session.sectionTimestamps[section] = Date.now();
+                    console.log(`✅ New section entered: ${section}, total visited: ${session.visitedSections.length}`);
                 }
             } else if (behaviorType === 'section_dwell') {
+                console.log(`⏱️ Dwell update: ${section} = ${dwellTime}s, threshold: 8s`);
+                
                 // Analyze and respond at 8 seconds or more
                 if (dwellTime >= 8) {
-                    const narrative = await generateNarrative(session, 'summary');
-                    const behavior = analyzeBehavior(session);
+                    console.log('🎯 Threshold met! Generating analysis...');
                     
-                    // Build journey summary
-                    const journeySummary = `You've visited: ${session.visitedSections.join(' → ')}. Currently on ${data.section} for ${dwellTime}s.`;
-                    
-                    // Find section with most dwell time
-                    let maxDwell = 0;
-                    let maxSection = '';
-                    for (const [sec, time] of Object.entries(behavior.dwellTimes)) {
-                        if (time > maxDwell) {
-                            maxDwell = time;
-                            maxSection = sec;
+                    try {
+                        const narrative = await generateNarrative(session, 'summary');
+                        console.log('📝 Narrative generated:', narrative.substring(0, 100) + '...');
+                        
+                        const behavior = analyzeBehavior(session);
+                        console.log('📊 Behavior analyzed:', behavior);
+                        
+                        // Build journey summary
+                        const journeySummary = `You've visited: ${session.visitedSections.join(' → ')}. Currently on ${data.section} for ${dwellTime}s.`;
+                        
+                        // Find section with most dwell time
+                        let maxDwell = 0;
+                        let maxSection = '';
+                        for (const [sec, time] of Object.entries(behavior.dwellTimes)) {
+                            if (time > maxDwell) {
+                                maxDwell = time;
+                                maxSection = sec;
+                            }
                         }
-                    }
-                    
-                    // Predict next section
-                    const unvisited = getUnvisitedSections(session);
-                    let prediction = 'Continue exploring the remaining sections.';
-                    
-                    if (behavior.profile === 'decision-maker' && !session.visitedSections.includes('economics')) {
-                        prediction = 'You\'ll likely want to see the economics section next to understand ROI.';
-                    } else if (behavior.profile === 'analyst' && !session.visitedSections.includes('how-it-works')) {
-                        prediction = 'You\'ll probably want to understand how it works in detail.';
-                    } else if (unvisited.length > 0) {
-                        prediction = `Consider checking out: ${unvisited.slice(0, 2).join(', ')}`;
-                    }
-                    
-                    res.status(200).json({
-                        type: 'analysis',
-                        narrative,
-                        thinking: {
-                            journey: journeySummary,
-                            mostInterested: maxSection ? `Most time on: ${maxSection} (${maxDwell}s)` : 'Just started exploring',
-                            engagement: `${behavior.timeOnSite}s on site, ${behavior.visitedCount} sections visited`,
-                            profile: behavior.profile,
-                            motivation: behavior.profile === 'decision-maker' ? 'Seeking ROI validation' :
-                                       behavior.profile === 'analyst' ? 'Understanding technical details' :
-                                       behavior.profile === 'explorer' ? 'Discovering possibilities' :
-                                       'Evaluating quickly',
-                            interests: behavior.interests.length > 0 ? behavior.interests.join(', ') : 'exploring broadly',
-                            prediction
+                        
+                        // Predict next section
+                        const unvisited = getUnvisitedSections(session);
+                        let prediction = 'Continue exploring the remaining sections.';
+                        
+                        if (behavior.profile === 'decision-maker' && !session.visitedSections.includes('economics')) {
+                            prediction = 'You\'ll likely want to see the economics section next to understand ROI.';
+                        } else if (behavior.profile === 'analyst' && !session.visitedSections.includes('how-it-works')) {
+                            prediction = 'You\'ll probably want to understand how it works in detail.';
+                        } else if (unvisited.length > 0) {
+                            prediction = `Consider checking out: ${unvisited.slice(0, 2).join(', ')}`;
                         }
-                    });
-                    return;
+                        
+                        const analysisResponse = {
+                            type: 'analysis',
+                            narrative,
+                            thinking: {
+                                journey: journeySummary,
+                                mostInterested: maxSection ? `Most time on: ${maxSection} (${maxDwell}s)` : 'Just started exploring',
+                                engagement: `${behavior.timeOnSite}s on site, ${behavior.visitedCount} sections visited`,
+                                profile: behavior.profile,
+                                motivation: behavior.profile === 'decision-maker' ? 'Seeking ROI validation' :
+                                           behavior.profile === 'analyst' ? 'Understanding technical details' :
+                                           behavior.profile === 'explorer' ? 'Discovering possibilities' :
+                                           'Evaluating quickly',
+                                interests: behavior.interests.length > 0 ? behavior.interests.join(', ') : 'exploring broadly',
+                                prediction
+                            }
+                        };
+                        
+                        console.log('📤 Sending analysis response:', JSON.stringify(analysisResponse, null, 2));
+                        res.status(200).json(analysisResponse);
+                        return;
+                    } catch (error) {
+                        console.error('❌ Error generating analysis:', error);
+                        res.status(500).json({ error: 'Analysis generation failed', message: error.message });
+                        return;
+                    }
+                } else {
+                    console.log(`⏸️ Dwell time ${dwellTime}s < 8s, waiting...`);
                 }
             }
             
+            console.log('✅ Behavior logged (no analysis triggered)');
             res.status(200).json({ success: true });
             return;
         }
