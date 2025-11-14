@@ -9,8 +9,29 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar">
+    <!-- Password Protection Gate -->
+    <div id="passwordGate" class="password-gate">
+        <div class="password-container">
+            <div class="password-header">
+                <img src="brand/accenture-logo.svg" alt="Accenture" class="password-logo">
+                <h2>Protected Content</h2>
+                <p>Please enter the password to access this site</p>
+            </div>
+            <div class="password-form">
+                <input type="password" id="passwordInput" placeholder="Enter password" autocomplete="off">
+                <button id="passwordSubmit" onclick="checkPassword()">
+                    <i class="fas fa-lock"></i>
+                    <span>Access Site</span>
+                </button>
+                <div id="passwordError" class="password-error"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content (Hidden until authenticated) -->
+    <div id="mainContent" class="main-content-protected">
+        <!-- Navigation -->
+        <nav class="navbar">
         <div class="container">
             <div class="nav-brand">
                 <img src="brand/accenture-logo.svg" alt="Accenture" class="brand-logo">
@@ -581,6 +602,9 @@
             </div>
         </div>
     </footer>
+
+    </div>
+    <!-- End Main Content -->
 
     <script src="script.js"></script>
     <script src="site-guide-ui.js"></script>

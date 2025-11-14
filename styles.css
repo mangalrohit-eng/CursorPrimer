@@ -4012,3 +4012,145 @@ html {
         transform: translateY(0);
     }
 }
+
+/* ========================================================================
+   PASSWORD PROTECTION GATE
+   ======================================================================== */
+
+.password-gate {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, #0b0b10 0%, #1a1f2e 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    animation: fadeIn 0.3s ease;
+}
+
+.password-gate.hidden {
+    display: none;
+}
+
+.password-container {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(161, 0, 255, 0.3);
+    border-radius: 24px;
+    padding: 3rem;
+    max-width: 500px;
+    width: 90%;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 40px rgba(161, 0, 255, 0.2);
+    animation: slideUp 0.5s ease;
+}
+
+.password-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.password-logo {
+    height: 50px;
+    margin-bottom: 1.5rem;
+    filter: brightness(0) invert(1);
+}
+
+.password-header h2 {
+    font-size: 2rem;
+    color: #ffffff;
+    margin-bottom: 0.75rem;
+    font-weight: 700;
+}
+
+.password-header p {
+    font-size: 1rem;
+    color: #b8bcc8;
+}
+
+.password-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.password-form input {
+    padding: 1rem 1.5rem;
+    font-size: 1.125rem;
+    border: 2px solid rgba(161, 0, 255, 0.3);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    color: #ffffff;
+    font-family: inherit;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.password-form input:focus {
+    border-color: var(--acc-purple);
+    box-shadow: 0 0 0 4px rgba(161, 0, 255, 0.1);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.password-form input::placeholder {
+    color: #6b7280;
+}
+
+.password-form button {
+    padding: 1rem 2rem;
+    font-size: 1.125rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #A100FF 0%, #6b21a8 100%);
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    font-family: inherit;
+}
+
+.password-form button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(161, 0, 255, 0.4);
+}
+
+.password-form button:active {
+    transform: translateY(0);
+}
+
+.password-form button i {
+    font-size: 1rem;
+}
+
+.password-error {
+    color: #ef4444;
+    font-size: 0.875rem;
+    text-align: center;
+    min-height: 1.25rem;
+    font-weight: 500;
+}
+
+.main-content-protected {
+    display: none;
+}
+
+.main-content-protected.unlocked {
+    display: block;
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
+    20%, 40%, 60%, 80% { transform: translateX(10px); }
+}
+
+.password-container.shake {
+    animation: shake 0.5s ease;
+}

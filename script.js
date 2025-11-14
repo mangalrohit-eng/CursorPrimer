@@ -3,7 +3,72 @@
 // Accenture × Verizon Account Executive Training
 // ========================================================================
 
+// ========================================================================
+// Password Protection
+// ========================================================================
+
+const CORRECT_PASSWORD = "Accenture2025";
+
+function checkPassword() {
+    const passwordInput = document.getElementById('passwordInput');
+    const passwordError = document.getElementById('passwordError');
+    const passwordGate = document.getElementById('passwordGate');
+    const mainContent = document.getElementById('mainContent');
+    const passwordContainer = document.querySelector('.password-container');
+    
+    const enteredPassword = passwordInput.value;
+    
+    if (enteredPassword === CORRECT_PASSWORD) {
+        // Correct password
+        sessionStorage.setItem('siteAuthenticated', 'true');
+        passwordGate.classList.add('hidden');
+        mainContent.classList.add('unlocked');
+        passwordError.textContent = '';
+    } else {
+        // Incorrect password
+        passwordError.textContent = '✕ Incorrect password. Please try again.';
+        passwordContainer.classList.add('shake');
+        passwordInput.value = '';
+        passwordInput.focus();
+        
+        // Remove shake animation after it completes
+        setTimeout(() => {
+            passwordContainer.classList.remove('shake');
+        }, 500);
+    }
+}
+
+// Check if user is already authenticated
+function checkAuthentication() {
+    const isAuthenticated = sessionStorage.getItem('siteAuthenticated');
+    const passwordGate = document.getElementById('passwordGate');
+    const mainContent = document.getElementById('mainContent');
+    
+    if (isAuthenticated === 'true') {
+        passwordGate.classList.add('hidden');
+        mainContent.classList.add('unlocked');
+    }
+}
+
+// Allow Enter key to submit password
 document.addEventListener('DOMContentLoaded', function() {
+    checkAuthentication();
+    
+    const passwordInput = document.getElementById('passwordInput');
+    if (passwordInput) {
+        passwordInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkPassword();
+            }
+        });
+        
+        // Focus on password input if not authenticated
+        const isAuthenticated = sessionStorage.getItem('siteAuthenticated');
+        if (isAuthenticated !== 'true') {
+            setTimeout(() => passwordInput.focus(), 300);
+        }
+    }
+    
     console.log('%c✨ From Decks to Demos', 'color: #3498db; font-size: 20px; font-weight: bold;');
     console.log('%cBuilt with AI development tools in under 2 hours', 'color: #27ae60; font-size: 14px;');
     
