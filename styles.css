@@ -1279,6 +1279,29 @@ body {
     font-size: 1rem;
 }
 
+.fun-tag {
+    position: absolute;
+    top: 65px;
+    right: 15px;
+    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+    color: white;
+    padding: 0.4rem 0.9rem;
+    border-radius: 0.25rem;
+    box-shadow: 0 4px 8px rgba(255, 107, 107, 0.3);
+    font-weight: 700;
+    font-size: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    transform: rotate(3deg);
+    z-index: 10;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.fun-tag i {
+    font-size: 0.85rem;
+}
+
 .prototype-info {
     padding: 2rem;
 }
